@@ -17,14 +17,14 @@ namespace IdentityServerWithAspIdAndEF.Data
     public class ApplicationDbContext :
         IdentityDbContext<ApplicationUser>,
         IConfigurationDbContext, IPersistedGrantDbContext,
-        ITenantDbContext<ApplicationTenant, string>
+        ITenantDbContext<ApplicationTenant>
     {
         private static object _tenancyModelState;
-        private readonly ITenancyContext<ApplicationTenant> _tenancyContext;
+        private readonly ITenancyContext<ApplicationTenant, string> _tenancyContext;
 
         public ApplicationDbContext(
             DbContextOptions<ApplicationDbContext> options,
-            ITenancyContext<ApplicationTenant> tenancyContext)
+            ITenancyContext<ApplicationTenant, string> tenancyContext)
             : base(options)
         {
             _tenancyContext = tenancyContext;

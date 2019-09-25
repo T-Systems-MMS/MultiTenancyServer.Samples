@@ -7,7 +7,7 @@ namespace MultiTenancyServer.Samples.AspNetIdentityAndEFCore.Data
     /// <summary>
     /// Central database to manage tenants.
     /// </summary>
-    public class ManagementDbContext : DbContext, ITenantDbContext<ApplicationTenant, string>
+    public class ManagementDbContext : DbContext, ITenantDbContext<ApplicationTenant>
     {
         public ManagementDbContext(
             DbContextOptions<ManagementDbContext> options)
