@@ -34,17 +34,18 @@ namespace MultiTenancyServer.Samples.AspNetIdentityAndEFCore
 
             // Add Multi-Tenancy services.
             services.AddMultiTenancy<ApplicationTenant, string>()
-                .AddRequestParsers(parsers =>
-                {
-                    // To test a domain parser locally, add a similar line 
-                    // to your hosts file for each tenant you want to test
-                    // For Windows: C:\Windows\System32\drivers\etc\hosts
-                    // 127.0.0.1	tenant1.tenants.local
-                    // 127.0.0.1	tenant2.tenants.local
-                    //parsers.AddSubdomainParser(".tenants.local");
+                .AddChildPathParser("/tenants/")
+                //.AddRequestParsers(parsers =>
+                //{
+                //    // To test a domain parser locally, add a similar line 
+                //    // to your hosts file for each tenant you want to test
+                //    // For Windows: C:\Windows\System32\drivers\etc\hosts
+                //    // 127.0.0.1	tenant1.tenants.local
+                //    // 127.0.0.1	tenant2.tenants.local
+                //    //parsers.AddSubdomainParser(".tenants.local");
 
-                    parsers.AddChildPathParser("/tenants/");
-                })
+                //    parsers.AddChildPathParser("/tenants/");
+                //})
                 .AddEntityFrameworkStore<ApplicationDbContext, ApplicationTenant, string>();
 
             // Add application services.
@@ -74,7 +75,7 @@ namespace MultiTenancyServer.Samples.AspNetIdentityAndEFCore
 
             app.UseAuthentication();
 
-            app.UseMultiTenancy<ApplicationTenant>();
+            app.UseMultiTenancy<ApplicationTenant, string>();
 
             app.UseMvc(routes =>
             {

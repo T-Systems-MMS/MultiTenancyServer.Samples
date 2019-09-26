@@ -6,9 +6,9 @@ namespace MultiTenancyServer.Samples.AspNetIdentityAndEFCore.Data
 {
     public class ApplicationDbContextConfigurator : IApplicationDbContextConfigurator
     {
-        private readonly ITenancyContext<ApplicationTenant> _tenancyContext;
+        private readonly ITenancyContext<ApplicationTenant, string> _tenancyContext;
 
-        public ApplicationDbContextConfigurator(ITenancyContext<ApplicationTenant> tenancyContext)
+        public ApplicationDbContextConfigurator(ITenancyContext<ApplicationTenant, string> tenancyContext)
         {
             _tenancyContext = tenancyContext;
         }

@@ -25,7 +25,7 @@ namespace IdentityServerWithAspIdAndEF
                 var context = scope.ServiceProvider.GetService<ApplicationDbContext>();
                 context.Database.Migrate();
 
-                var tenantMgr = scope.ServiceProvider.GetRequiredService<TenantManager<ApplicationTenant>>();
+                var tenantMgr = scope.ServiceProvider.GetRequiredService<TenantManager<ApplicationTenant, string>>();
                 var tenant1 = tenantMgr.FindByCanonicalNameAsync("localhost").Result;
                 if (tenant1 == null)
                 {
@@ -71,9 +71,9 @@ namespace IdentityServerWithAspIdAndEF
 
             using (var scope = serviceProvider.GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
-                var tenantMgr = scope.ServiceProvider.GetRequiredService<TenantManager<ApplicationTenant>>();
+                var tenantMgr = scope.ServiceProvider.GetRequiredService<TenantManager<ApplicationTenant, string>>();
                 var tenant = tenantMgr.FindByCanonicalNameAsync("localhost").Result;
-                var tenancyContext = scope.ServiceProvider.GetService<ITenancyContext<ApplicationTenant>>();
+                var tenancyContext = scope.ServiceProvider.GetService<ITenancyContext<ApplicationTenant, string>>();
                 tenancyContext.Tenant = tenant;
 
                 var context = scope.ServiceProvider.GetService<ApplicationDbContext>();
@@ -151,9 +151,9 @@ namespace IdentityServerWithAspIdAndEF
 
             using (var scope = serviceProvider.GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
-                var tenantMgr = scope.ServiceProvider.GetRequiredService<TenantManager<ApplicationTenant>>();
+                var tenantMgr = scope.ServiceProvider.GetRequiredService<TenantManager<ApplicationTenant, string>>();
                 var tenant = tenantMgr.FindByCanonicalNameAsync("tenant2.local").Result;
-                var tenancyContext = scope.ServiceProvider.GetService<ITenancyContext<ApplicationTenant>>();
+                var tenancyContext = scope.ServiceProvider.GetService<ITenancyContext<ApplicationTenant, string>>();
                 tenancyContext.Tenant = tenant;
 
                 var context = scope.ServiceProvider.GetService<ApplicationDbContext>();

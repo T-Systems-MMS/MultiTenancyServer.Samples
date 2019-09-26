@@ -14,12 +14,12 @@ namespace MultiTenancyServer.Samples.AspNetIdentityAndEFCore.Data
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityRole<long>, long>, ITenantDbContext<ApplicationTenant, long>
     {
         private static object _tenancyModelState;
-        private readonly ITenancyContext<ApplicationTenant> _tenancyContext;
+        private readonly ITenancyContext<ApplicationTenant, long> _tenancyContext;
         private readonly ILogger _logger;
 
         public ApplicationDbContext(
             DbContextOptions<ApplicationDbContext> options,
-            ITenancyContext<ApplicationTenant> tenancyContext,
+            ITenancyContext<ApplicationTenant, long> tenancyContext,
             ILogger<ApplicationDbContext> logger)
             : base(options)
         {
