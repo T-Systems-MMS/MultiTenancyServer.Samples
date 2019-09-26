@@ -2,7 +2,7 @@
 
 [![Build Status](https://dev.azure.com/T-Systems-MMS/MultiTenancyServer/_apis/build/status/T-Systems-MMS.MultiTenancyServer.Samples?branchName=master)](https://dev.azure.com/T-Systems-MMS/MultiTenancyServer/_build/latest?definitionId=24&branchName=master)
 
-See [MultiTenancyServer README](https://github.com/MultiTenancyServer/MultiTenancyServer).
+See [MultiTenancyServer README](https://github.com/T-Systems-MMS/MultiTenancyServer).
 
 All examples will register two tenants (tenant1 and tenant2) along with three users with one user, alice, registered within both tenants. You should launch a sample project as an exe when debugging instead of via IIS Express so the /seed command line argument is passed in which will generate the Sqlite database(s) in the project folder and populate with the above mentioned tenants and users. All user passwords are Pass123$.
 
