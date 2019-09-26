@@ -1,5 +1,6 @@
-[![Build status](https://ci.appveyor.com/api/projects/status/47phsuxevn2t87ik/branch/master?svg=true)](https://ci.appveyor.com/project/krispenner/multitenancyserver-samples/branch/master)
 # MultiTenancyServer.Samples
+
+[![Build Status](https://dev.azure.com/T-Systems-MMS/MultiTenancyServer/_apis/build/status/T-Systems-MMS.MultiTenancyServer.Samples?branchName=master)](https://dev.azure.com/T-Systems-MMS/MultiTenancyServer/_build/latest?definitionId=24&branchName=master)
 
 See [MultiTenancyServer README](https://github.com/T-Systems-MMS/MultiTenancyServer).
 
