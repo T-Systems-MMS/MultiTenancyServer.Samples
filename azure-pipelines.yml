@@ -18,6 +18,12 @@ stages:
     pool:
       vmImage: 'ubuntu-latest'
     steps:
+    - task: NuGetCommand@2
+      inputs:
+        command: 'restore'
+        restoreSolution: '**/*.sln'
+        feedsToUse: 'config'
+        nugetConfigPath: 'Nuget.config'
     - task: DotNetCoreCLI@2
       inputs:
         command: 'restore'
