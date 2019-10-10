@@ -240,8 +240,8 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
-src/IdentityServerWithAspIdAndEF/*_log.txt
-src/IdentityServerWithAspIdAndEF/*.rsa
+**/*_log.txt
+**/*.rsa
 **/*.db
 **/*_log.txt
 **//Data/Migrations/*.cs
