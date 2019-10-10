@@ -2,14 +2,15 @@
 using System.Reflection;
 using IdentityServerWithAspIdAndEF.Data;
 using IdentityServerWithAspIdAndEF.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
 
 namespace IdentityServerWithAspIdAndEF
 {
@@ -34,18 +35,44 @@ namespace IdentityServerWithAspIdAndEF
                 //.EnableSensitiveDataLogging()
                 );
 
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.AccessDeniedPath = "/AccessDenied";
+                options.Cookie.Name = "login.idp.de"; 
+                options.Cookie.HttpOnly = true;
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+                options.LoginPath = "/Login";
+                options.LogoutPath = "/Logout";
+                options.ReturnUrlParameter = CookieAuthenticationDefaults.ReturnUrlParameter;
+                options.SlidingExpiration = true;
+            });
+
             services.AddMultiTenancy<ApplicationTenant, string>()
                 .AddDomainParser()
-                //.AddRequestParsers(parsers =>
-                //{
-                //    // To test a domain parser locally, add a similar line 
-                //    // to your hosts file for each tenant you want to test
-                //    // For Windows: C:\Windows\System32\drivers\etc\hosts
-                //    // 127.0.0.1	tenant2.local
-                //    // tenant1 has been mapped to "localhost".
-                //    parsers.AddDomainParser();
-                //})
-                .AddEntityFrameworkStore<ApplicationDbContext, ApplicationTenant, string>();
+                .AddEntityFrameworkStore<ApplicationDbContext, ApplicationTenant, string>()
+                                .WithPerTenantOptions<CookiePolicyOptions>((options, tenant) =>
+                {
+                    // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+                    options.CheckConsentNeeded = context => true;
+                    options.ConsentCookie.Name = tenant.Id + "-consent";
+                    options.MinimumSameSitePolicy = SameSiteMode.None;
+                })
+                .WithPerTenantOptions<CookieAuthenticationOptions>((options, tenantInfo) =>
+                {
+                    //Since we are using the route strategy configure each tenant
+                    // to have a different cookie name and adjust the paths.
+                    options.Cookie.Name = $"{tenantInfo.Id}_{options.Cookie.Name}";
+                    //options.LoginPath = $"/{tenantInfo.DisplayName}/Home/Login";
+                    //options.LogoutPath = $"/{tenantInfo.DisplayName}";
+                    options.Cookie.Path = "";//$"/{tenantInfo.DisplayName}";
+                });
+
+            // workaround for https://github.com/aspnet/AspNetCore/issues/5828
+            services.PostConfigure<CookieAuthenticationOptions>(IdentityConstants.ApplicationScheme, options =>
+            {
+                // This will result in a path of /_tenant_/Identity/Account/Login
+                options.LoginPath = $"{options.Cookie.Path}{options.LoginPath}";
+            });
 
             //IdentityModelEventSource.ShowPII = true;
             services.AddIdentity<ApplicationUser, IdentityRole>()

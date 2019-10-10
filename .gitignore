@@ -242,3 +242,6 @@ ModelManifest.xml
 .fake/
 src/IdentityServerWithAspIdAndEF/*_log.txt
 src/IdentityServerWithAspIdAndEF/*.rsa
+**/*.db
+**/*_log.txt
+**//Data/Migrations/*.cs
