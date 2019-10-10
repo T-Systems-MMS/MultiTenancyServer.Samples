@@ -240,6 +240,5 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
-/src/projects/Shared.Caching.ConsoleTest
-src/IdentityServerWithAspIdAndEF/multitenancyserver_log.txt
-src/IdentityServerWithAspIdAndEF/tempkey.rsa
+src/IdentityServerWithAspIdAndEF/*_log.txt
+src/IdentityServerWithAspIdAndEF/*.rsa
