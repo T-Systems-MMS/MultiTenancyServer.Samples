@@ -241,3 +241,7 @@ ModelManifest.xml
 # FAKE - F# Make
 .fake/
 /src/projects/Shared.Caching.ConsoleTest
+**/*.db
+**/*_log.txt
+**//Data/Migrations/*.cs
+**/tempkey.rsa
