@@ -115,8 +115,9 @@ namespace IdentityServerWithAspIdAndEF
                         b.UseSqlite(connectionString,
                             sql => sql.MigrationsAssembly(migrationsAssembly));
 
-                    // this enables automatic token cleanup. this is optional.
-                    options.EnableTokenCleanup = true;
+                    // automatic token cleanup. this is optional. - automatic token cleanup does not work with multitenancy because of missing tenant during cleanup
+                    options.EnableTokenCleanup = false;
+
                     // options.TokenCleanupInterval = 15; // frequency in seconds to cleanup stale grants. 15 is useful during debugging
                 });
 

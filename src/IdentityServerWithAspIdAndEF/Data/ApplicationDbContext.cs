@@ -131,22 +131,48 @@ namespace IdentityServerWithAspIdAndEF.Data
                 b.HasIndex(tenantReferenceOptions.ReferenceName, nameof(IdentityServer4.EntityFramework.Entities.DeviceFlowCodes.DeviceCode)).IsUnique();
             });
         }
-
-        public Task<int> SaveChangesAsync()
+        
+        /// <inheritdoc/>
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-            return base.SaveChangesAsync();
+            this.EnsureTenancy(_tenancyContext?.Tenant?.Id, _tenancyModelState);
+            return base.SaveChangesAsync(cancellationToken);
         }
 
+        /// <summary>
+        /// Ensures tenancy and saves all changes made in this context to the database. 
+        /// </summary>
+        /// <returns>The number of state entries written to the database.</returns>
+        public override int SaveChanges()
+        {
+            this.EnsureTenancy(_tenancyContext?.Tenant?.Id, _tenancyModelState);
+            return base.SaveChanges();
+        }
+
+        /// <inheritdoc/>
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
         {
             this.EnsureTenancy(_tenancyContext?.Tenant?.Id, _tenancyModelState);
             return base.SaveChanges(acceptAllChangesOnSuccess);
         }
 
+        /// <inheritdoc/>
         public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
         {
             this.EnsureTenancy(_tenancyContext?.Tenant?.Id, _tenancyModelState);
             return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        Task<int> IPersistedGrantDbContext.SaveChangesAsync()
+        {
+            return this.SaveChangesAsync();
+        }
+
+        /// <inheritdoc/>
+        Task<int> IConfigurationDbContext.SaveChangesAsync()
+        {
+            return this.SaveChangesAsync();
         }
     }
 }

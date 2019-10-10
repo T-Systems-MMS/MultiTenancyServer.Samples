@@ -240,8 +240,8 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
-/src/projects/Shared.Caching.ConsoleTest
+**/*_log.txt
+**/*.rsa
 **/*.db
 **/*_log.txt
 **//Data/Migrations/*.cs
-**/tempkey.rsa
